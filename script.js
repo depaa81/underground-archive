@@ -1,136 +1,671 @@
-const records = [
-  {
-    id:"FILE // 17-A", title:"PROJECT_17", desc:"Fragmented records from an unidentified project.",
-    content:`PROJECT 17 — CLASSIFIED
+const bootScreen = document.getElementById("bootScreen");
+const bootText = document.getElementById("bootText");
 
-STATUS: ABANDONED
-YEAR: 2009
+const terminalApp = document.getElementById("terminalApp");
 
-Project 17 was a fictional experiment documented through
-a series of incomplete archive entries.
+const terminalOutput =
+    document.getElementById("terminalOutput");
 
-The final entry contains only one sentence:
+const commandInput =
+    document.getElementById("commandInput");
 
-"THE NODE REMEMBERS."
 
-All subsequent records were corrupted.
+/*
+=========================================
+BOOT SEQUENCE
+=========================================
+*/
 
-[END OF RECORD]`
-  },
-  {
-    id:"FILE // 09-X", title:"SUBJECT_UNKNOWN", desc:"An incomplete fictional identity record.",
-    content:`SUBJECT: UNKNOWN
-STATUS: UNRESOLVED
-LAST TRACE: 03:17:44
+const bootLines = [
 
-The subject appears in six unrelated fictional camera
-records at exactly the same timestamp.
+    "[ BIOS ] BLACK TERMINAL SYSTEM",
 
-No matching identity exists in the archive.
+    "[ BIOS ] initializing kernel...",
 
-A note was found beneath the final entry:
+    "[ OK ] memory check",
 
-"STOP LOOKING FOR THE ORIGINAL."
+    "[ OK ] filesystem mounted",
 
-[END OF RECORD]`
-  },
-  {
-    id:"LOG // CAM-04", title:"CAM_04_LOG", desc:"Recovered surveillance log with unexplained gaps.",
-    content:`CAMERA: 04
-LOCATION: LOWER ARCHIVE
+    "[ OK ] encrypted node detected",
 
-03:17:01 — corridor empty
-03:17:09 — signal distortion
-03:17:13 — unknown shadow detected
-03:17:14 — feed lost
-03:17:29 — feed restored
+    "[ OK ] terminal interface loaded",
 
-NOTE:
-No physical camera was found at this location.
+    "",
 
-[END OF RECORD]`
-  },
-  {
-    id:"CASE // 1997-17", title:"INCIDENT_1997", desc:"An old incident report with inconsistent timestamps.",
-    content:`INCIDENT REPORT // 1997
+    "WARNING: this is a fictional interface.",
 
-A fictional archive node went offline for 11 minutes.
+    "NO REAL NETWORK ACCESS IS PERFORMED.",
 
-When the system returned, every timestamp had shifted
-by exactly 17 seconds.
+    "",
 
-CAUSE: UNKNOWN
-RESOLUTION: NONE
+    "Starting BLACK//TERMINAL..."
 
-The original report ends before the investigation begins.
-
-[END OF RECORD]`
-  },
-  {
-    id:"NODE // 00-17", title:"LOST_NODE", desc:"A network node that should not exist.",
-    content:`NODE ID: 00-00-17
-PING: FAILED
-ROUTE: UNKNOWN
-
-A node continues to appear in the fictional network map,
-but no connection can reach it.
-
-Last response received:
-
-"YOU ARE ALREADY HERE."
-
-Connection terminated.
-
-[END OF RECORD]`
-  },
-  {
-    id:"BIN // NULL", title:"NULL_ARCHIVE", desc:"A corrupted fictional archive entry.",
-    content:`ERROR: CONTENT NOT FOUND
-
-The file exists.
-The directory exists.
-The index exists.
-
-The content does not.
-
-Repeated attempts to open the file return:
-
-[ NULL ]
-[ NULL ]
-[ NULL ]
-
-The archive has no explanation.
-
-[END OF RECORD]`
-  }
 ];
 
-const grid=document.getElementById("archiveGrid");
-const modal=document.getElementById("modal");
-const fileCode=document.getElementById("fileCode");
-const fileTitle=document.getElementById("fileTitle");
-const fileContent=document.getElementById("fileContent");
 
-records.forEach((r,i)=>{
-  const card=document.createElement("article");
-  card.className="card";
-  card.innerHTML=`<div class="file-id">${r.id}</div><div class="lock">▣</div><h3>${r.title}</h3><p>${r.desc}</p>`;
-  card.addEventListener("click",()=>openRecord(i));
-  grid.appendChild(card);
-});
+let bootIndex = 0;
 
-function openRecord(i){
-  const r=records[i];
-  fileCode.textContent=r.id;
-  fileTitle.textContent=r.title;
-  fileContent.textContent=r.content;
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden","false");
+
+function bootSequence() {
+
+    if (bootIndex >= bootLines.length) {
+
+        setTimeout(() => {
+
+            bootScreen.classList.add("hidden");
+
+            terminalApp.classList.remove("hidden");
+
+            commandInput.focus();
+
+        }, 700);
+
+        return;
+    }
+
+
+    const line =
+        document.createElement("div");
+
+    line.textContent =
+        bootLines[bootIndex];
+
+    bootText.appendChild(line);
+
+    bootIndex++;
+
+    setTimeout(
+        bootSequence,
+        150
+    );
 }
-function closeRecord(){
-  modal.classList.remove("show");
-  modal.setAttribute("aria-hidden","true");
+
+
+bootSequence();
+
+
+/*
+=========================================
+COMMAND DATA
+=========================================
+*/
+
+const files = {
+
+    "archive_01":
+
+`ARCHIVE FILE 01
+
+STATUS: CLASSIFIED
+ORIGIN: UNKNOWN
+
+This fictional record contains fragmented
+information recovered from an abandoned node.
+
+The final message says:
+
+"THE SYSTEM KNOWS YOUR NAME."
+
+No additional information exists.
+
+[END OF FILE]`,
+
+
+    "archive_02":
+
+`ARCHIVE FILE 02
+
+STATUS: CORRUPTED
+
+03:17:01 — system normal
+03:17:08 — signal distortion
+03:17:13 — unknown process
+03:17:14 — connection lost
+03:17:29 — connection restored
+
+NOTE:
+
+There was no registered device
+connected to the node.
+
+[END OF FILE]`,
+
+
+    "archive_03":
+
+`ARCHIVE FILE 03
+
+SUBJECT: UNKNOWN
+STATUS: UNRESOLVED
+
+The archive contains six identical
+timestamps belonging to six different
+fictional records.
+
+All timestamps:
+
+03:17:44
+
+The reason remains unknown.
+
+[END OF FILE]`,
+
+};
+
+
+/*
+=========================================
+HELP
+=========================================
+*/
+
+function showHelp() {
+
+    printLine("");
+
+    printLine(
+        "AVAILABLE COMMANDS",
+        "green"
+    );
+
+    printLine("");
+
+    printLine(
+        "help        - show this help"
+    );
+
+    printLine(
+        "clear       - clear terminal"
+    );
+
+    printLine(
+        "status      - system status"
+    );
+
+    printLine(
+        "about       - information"
+    );
+
+    printLine(
+        "files       - list fictional files"
+    );
+
+    printLine(
+        "open 01     - open archive 01"
+    );
+
+    printLine(
+        "open 02     - open archive 02"
+    );
+
+    printLine(
+        "open 03     - open archive 03"
+    );
+
+    printLine(
+        "scan        - run fictional scan"
+    );
+
+    printLine(
+        "disconnect  - disconnect session"
+    );
+
+    printLine("");
+
 }
-document.getElementById("closeBtn").addEventListener("click",closeRecord);
-modal.addEventListener("click",e=>{if(e.target===modal)closeRecord()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeRecord()});
+
+
+/*
+=========================================
+PRINT LINE
+=========================================
+*/
+
+function printLine(
+    text = "",
+    className = ""
+) {
+
+    const line =
+        document.createElement("div");
+
+    line.className =
+        `line ${className}`;
+
+    line.textContent =
+        text;
+
+    terminalOutput.appendChild(line);
+
+    terminalOutput.scrollTop =
+        terminalOutput.scrollHeight;
+}
+
+
+/*
+=========================================
+COMMAND HANDLER
+=========================================
+*/
+
+function executeCommand(rawCommand) {
+
+    const command =
+        rawCommand
+        .trim()
+        .toLowerCase();
+
+
+    if (!command) {
+        return;
+    }
+
+
+    printLine(
+        `root@black-node:~$ ${rawCommand}`,
+        "command"
+    );
+
+
+    /*
+    HELP
+    */
+
+    if (command === "help") {
+
+        showHelp();
+
+        return;
+    }
+
+
+    /*
+    CLEAR
+    */
+
+    if (command === "clear") {
+
+        terminalOutput.innerHTML = "";
+
+        return;
+    }
+
+
+    /*
+    STATUS
+    */
+
+    if (command === "status") {
+
+        printLine("");
+
+        printLine(
+            "SYSTEM STATUS",
+            "green"
+        );
+
+        printLine(
+            "--------------------------------"
+        );
+
+        printLine(
+            "NODE       : ONLINE"
+        );
+
+        printLine(
+            "ENCRYPTION : ENABLED"
+        );
+
+        printLine(
+            "ARCHIVES   : 03"
+        );
+
+        printLine(
+            "UPTIME     : 17:44:09"
+        );
+
+        printLine(
+            "THREAT     : UNKNOWN",
+            "red"
+        );
+
+        printLine("");
+
+        return;
+    }
+
+
+    /*
+    ABOUT
+    */
+
+    if (command === "about") {
+
+        printLine("");
+
+        printLine(
+            "BLACK//TERMINAL",
+            "green"
+        );
+
+        printLine(
+            "A fictional terminal experience."
+        );
+
+        printLine(
+            "No real network activity occurs."
+        );
+
+        printLine("");
+
+        return;
+    }
+
+
+    /*
+    FILES
+    */
+
+    if (command === "files") {
+
+        printLine("");
+
+        printLine(
+            "AVAILABLE ARCHIVES:",
+            "green"
+        );
+
+        printLine(
+            "archive_01.dat"
+        );
+
+        printLine(
+            "archive_02.log"
+        );
+
+        printLine(
+            "archive_03.bin"
+        );
+
+        printLine("");
+
+        return;
+    }
+
+
+    /*
+    OPEN FILE
+    */
+
+    if (command === "open 01") {
+
+        showFile(
+            files.archive_01
+        );
+
+        return;
+    }
+
+
+    if (command === "open 02") {
+
+        showFile(
+            files.archive_02
+        );
+
+        return;
+    }
+
+
+    if (command === "open 03") {
+
+        showFile(
+            files.archive_03
+        );
+
+        return;
+    }
+
+
+    /*
+    SCAN
+    */
+
+    if (command === "scan") {
+
+        runScan();
+
+        return;
+    }
+
+
+    /*
+    DISCONNECT
+    */
+
+    if (command === "disconnect") {
+
+        disconnect();
+
+        return;
+    }
+
+
+    /*
+    UNKNOWN COMMAND
+    */
+
+    printLine(
+        `command not found: ${rawCommand}`,
+        "red"
+    );
+
+}
+
+
+/*
+=========================================
+SHOW FILE
+=========================================
+*/
+
+function showFile(content) {
+
+    printLine("");
+
+    const lines =
+        content.split("\n");
+
+    let index = 0;
+
+
+    function typeFile() {
+
+        if (index >= lines.length) {
+
+            printLine("");
+
+            return;
+        }
+
+
+        printLine(
+            lines[index],
+            index === 0
+                ? "green"
+                : ""
+        );
+
+        index++;
+
+        setTimeout(
+            typeFile,
+            30
+        );
+    }
+
+
+    typeFile();
+
+}
+
+
+/*
+=========================================
+FAKE SCAN
+=========================================
+*/
+
+function runScan() {
+
+    printLine("");
+
+    printLine(
+        "INITIALIZING FICTIONAL SCAN...",
+        "green"
+    );
+
+
+    const scanMessages = [
+
+        "checking local node...",
+
+        "checking archive index...",
+
+        "checking encrypted records...",
+
+        "checking unknown processes...",
+
+        "checking hidden directories..."
+
+    ];
+
+
+    let index = 0;
+
+
+    function nextScan() {
+
+        if (
+            index >=
+            scanMessages.length
+        ) {
+
+            printLine("");
+
+            printLine(
+                "SCAN COMPLETE",
+                "green"
+            );
+
+            printLine(
+                "RESULT: NO REAL NETWORK WAS ACCESSED."
+            );
+
+            printLine("");
+
+            return;
+        }
+
+
+        printLine(
+            `[SCAN] ${scanMessages[index]}`
+        );
+
+        index++;
+
+        setTimeout(
+            nextScan,
+            500
+        );
+    }
+
+
+    nextScan();
+
+}
+
+
+/*
+=========================================
+DISCONNECT
+=========================================
+*/
+
+function disconnect() {
+
+    printLine("");
+
+    printLine(
+        "terminating session...",
+        "yellow"
+    );
+
+
+    setTimeout(() => {
+
+        terminalApp.classList.add("glitch");
+
+        printLine(
+            "connection terminated.",
+            "red"
+        );
+
+        printLine("");
+
+        commandInput.disabled = true;
+
+    }, 700);
+
+}
+
+
+/*
+=========================================
+KEYBOARD
+=========================================
+*/
+
+commandInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            const command =
+                commandInput.value;
+
+            executeCommand(command);
+
+            commandInput.value = "";
+
+        }
+
+    }
+);
+
+
+/*
+=========================================
+CLICK ANYWHERE
+FOCUS TERMINAL
+=========================================
+*/
+
+document.addEventListener(
+    "click",
+    function() {
+
+        if (
+            !commandInput.disabled &&
+            !bootScreen.classList.contains("hidden")
+        ) {
+            return;
+        }
+
+        commandInput.focus();
+
+    }
+);
