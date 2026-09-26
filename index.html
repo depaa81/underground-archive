@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>U//ARCHIVE — Underground Archive</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div class="brand">U//ARCHIVE</div>
+    <div class="connection"><span></span> NODE ONLINE</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="warning">FICTIONAL ARCHIVE // ENTERTAINMENT ONLY</div>
+      <div class="eyebrow">RESTRICTED REPOSITORY / NODE 07</div>
+      <h1>UNDERGROUND<br><em>ARCHIVE</em></h1>
+      <p class="intro">A collection of fragmented records recovered from an unidentified fictional network.</p>
+      <div class="terminal">
+        <div>&gt; initializing archive...</div>
+        <div>&gt; checking node integrity... <b>OK</b></div>
+        <div>&gt; encrypted records detected: <b>06</b></div>
+        <div>&gt; access level: <b>UNKNOWN</b></div>
+        <div class="cursor">_</div>
+      </div>
+    </section>
+
+    <section class="archive">
+      <div class="section-head">
+        <span>AVAILABLE RECORDS</span>
+        <span>06 FILES / ENCRYPTED</span>
+      </div>
+
+      <div class="grid" id="archiveGrid"></div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-box">
+      <button class="close" id="closeBtn">[ CLOSE ]</button>
+      <div class="file-code" id="fileCode"></div>
+      <h2 id="fileTitle"></h2>
+      <div class="divider"></div>
+      <pre id="fileContent"></pre>
+      <div class="modal-footer">END OF RECORD // <span>ARCHIVE 07</span></div>
+    </div>
+  </div>
+
+  <footer>UNDERGROUND ARCHIVE // ALL RECORDS ARE FICTIONAL</footer>
+  <script src="script.js"></script>
+</body>
+</html>
